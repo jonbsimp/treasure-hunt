@@ -8,14 +8,15 @@ class App extends Component {
    
     
 render () {
-    return (
-      <div className= "app">
-        <h1> Treasure Hunt </h1>
-        <Board />
-        <button>Click Me</button>
-       
-      </div>
-    );
+  
+  return (
+    <div className= "app">
+      <h1> Treasure Hunt 1 </h1>
+      <Board />
+      <button>Click Me</button>
+     
+    </div>
+  );
 }
 }
 
