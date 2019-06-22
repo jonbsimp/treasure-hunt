@@ -1,5 +1,7 @@
 body{
-      background-image: url("/treasure.JPEG");
+      background-image: url("/mapa.JPEG");
+      font-size: 25px;
+      font-style: oblique;
 }
 
 .button{

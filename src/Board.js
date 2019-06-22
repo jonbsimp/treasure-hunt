@@ -9,75 +9,47 @@ class Board extends Component {
         //console.log("Board::constructor")
         super(props)
         this.state = {
-            question: ['?', '?', '?', '?', '?', '?','?','?', '?'], //The visible top layer
-            content: ["tree", "tree", "tree","tree","tree","tree","tree","tree","tree"], //
+            question: ['?', '?', '?', '?', '?', '?','?','?', '?'], //The visible top layer of "?"
+            content: ["tree", "tree", "tree","tree","tree","tree","tree","tree","tree"], //The content that is really there but hidden
             tries: 0,
             maxTries: 5,
-            winOrLose: ""
-            // winOrLose
+            winOrLose: "" //Has three values of "win","lose" or ""
         }
-        
-        
 
-        
-        // created a var for a random index to contain a treasure
+        // created a var for a random index to contain a coin
         let target = Math.floor(Math.random()*9)
+        // Turns the random index into a coin and places it
         this.state.content[target] = "coin"
-        
-        
     } 
     
-    // reset function
-     
-    
-        
-    
-
-     
     updateImage = (e) => {
 
-        //alert("Board::updateImage")
-        // if winOrLose -> return
+        // take data and created variables to modify the state
         const { question } = this.state
         let { tries } = this.state
         let { maxTries } = this.state
         let { winOrLose } = this.state
         
-        
-    // created a variable for the index
+        // create a var to access the index and value of the target square
         let target = e.target.id
         let content = this.state.content[target]
-        
 
-        
-        // created a condition for the question"?" at the index to equal content "tree"
-        
-        if(question[target] === "?"){
-            question[target] = this.state.content[target]
+        if (question[target] === "?"){ // the square has not been clicked on
+            question[target] = this.state.content[target] // after clicked, the "?" turns into the content
+            maxTries -= 1 // This decreases the amount of tries after each click
             // set winOrLose
-            maxTries -= 1 
             if (content === "coin"){
                 winOrLose = "win"
                 alert("You Win!")
                 //window.location.reload() 
             } else if(tries === maxTries){
                 alert("You Lose!")
-                //window.location.reload()
                 winOrLose = "lose"
             }
             
-            // if too many tries, set winOrLose
         } 
-        
-            
 
-        
-        
-    
-
-        // alert(e.target.id)
         this.setState({question, tries, maxTries, winOrLose})
-        
     }
     
 
@@ -85,12 +57,14 @@ class Board extends Component {
         const coin = <img src="./coin.jpeg"/>
         const { question } = this.state
         let { winOrLose } = this.state
-        let square = question.map((value, index) => {
-            if (value === "coin"){
+        
+        //  loops over all 9 squares and returns the html content
+        let squares = question.map((value, index) => {
+            if (value === "coin"){ // it displays the image of a coin
                 return(
                     <div><img src="./coin.jpeg"/></div>
                 )
-            }else if(value === "tree"){
+            }else if(value === "tree"){ //has been clicked but was not the right spot
                 if (winOrLose === ""){
                     return(
                        <div><img src="./lebron.jpeg"/></div>
@@ -100,7 +74,7 @@ class Board extends Component {
                         <div>{winOrLose}</div>
                     )
                 }
-            }else{
+            }else{ // has not been clicked on
                 if(winOrLose === ""){
                     return (
                          <div id={index} onClick={this.updateImage}>{value}</div>
@@ -110,21 +84,16 @@ class Board extends Component {
                         <div>{winOrLose}</div>
                     )
                 }
-              
             }
-          
         })
         // let gameState say "win" or "lose" based on this.state.winOrLose
         return (
             <div className="board">
-            
-                {square}
+                {squares}
                 <h1>
                      Tries Left: {this.state.maxTries}  
                 </h1>
-               
             </div>
-           
         );
     }
 }
